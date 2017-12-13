@@ -5,7 +5,7 @@ function ts_to_im_separate_stock_market
 clear; clc;
 
 %% load data
-load('../Data/synthetic_data_20171206_095856.mat');
+load('../Data/synthetic_temporal_data_20171213_152646.mat');
 load('../Data/train.mat')
 %% train
 la = synth_data(:,1); feat = synth_data(:,2:end);
@@ -13,7 +13,7 @@ la = la+(1-min(la)); %make them all [1-c]
 n_class = max(la); 
 
 for c = 1: n_class
-    fprintf('analyzing class %.1d\n',c)
+    fprintf('analyzing train class %.1d\n',c)
     [idx, ~] = find(la==c);
     mkdir(['../Data/train/' num2str(c)]);  % make a folder
     for sample = 1:size(idx,1)
@@ -30,7 +30,7 @@ la = la+(1-min(la)); %make them all [1-c]
 n_class = max(la); 
 
 for c = 1: n_class
-    fprintf('analyzing class %.1d\n',c)
+    fprintf('analyzing test class %.1d\n',c)
     [idx, ~] = find(la==c);
     mkdir(['../Data/test/' num2str(c)]);  % make a folder
     for sample = 1:size(idx,1)

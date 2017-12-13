@@ -39,16 +39,16 @@ global img_rows
 global img_cols
 global channel
 
-nb_classes = 3
-img_rows, img_cols = 142,142 # input image dimensions (be resized to this!)
+nb_classes = 2
+img_rows, img_cols = 82,82 # input image dimensions (be resized to this!)
 channel = 1
 
 
 #~ if os.path.isfile("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\test.dat"):
-	#~ os.remove("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\test.dat")
+os.remove("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\test.dat")
 	
 #~ if os.path.isfile("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\train.dat"):
-	#~ os.remove("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\train.dat")
+os.remove("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\train.dat")
 
 def get_im(path):
     # Load as grayscale
@@ -65,7 +65,7 @@ def load_train():
     print('Read train images')
     for j in range(nb_classes):
         print('Load folder c{}'.format(j))
-        path = os.path.join('.', 'ts_imgs2', 'train', str(j), '*.jpg')
+        path = os.path.join('.', 'ts_imgs', 'train', str(j), '*.jpg')
         files = glob.glob(path)
         for fl in files:
             img = get_im(fl)
@@ -78,9 +78,9 @@ def load_test():
     X_test = []
     y_test = []
     print('Read test images')
-    for j in range(1,3):
+    for j in range(nb_classes):
         print('Load folder test_c{}'.format(j))
-        path = os.path.join('.', 'ts_imgs2', 'test', str(j), '*.jpg')
+        path = os.path.join('.', 'ts_imgs', 'test', str(j), '*.jpg')
         files = glob.glob(path)
         for fl in files:
             img = get_im(fl)
@@ -184,7 +184,7 @@ model.compile(loss='categorical_crossentropy',
 
 # 9. Fit model on training data
 model.fit(X_train, Y_train, 
-		  batch_size=5, epochs=100, verbose=1)
+		  batch_size=5, epochs=10, verbose=1)
 
 # 10. Evaluate model on test data
 score = model.evaluate(X_test, Y_test, verbose=0)
@@ -205,7 +205,7 @@ print('Recognition Rate:', 100*float(sum(real_labels == p_labels))/float(len(p_l
 #~ print(model)
 #~ print(real_labels)
 #~ print(p_labels)
-#~ print(predictions)
+print(predictions)
 #~ print(X_train.shape)
 #~ print(Y_train.shape)
 #~ print(X_test.shape)
