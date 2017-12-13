@@ -4,6 +4,9 @@ function auto_synthetic_data_generator
 %
 % Created: 12.6.17
 % 
+
+home = pwd;
+
 N = 90;                     % simulate a 3-month period
 M = 1024;                   % number of synthetic stocks
 support = rand();
@@ -17,6 +20,7 @@ support_mu = 0;
 support_sigma = 5;
 
 %%%% Generate Support Class (C1) Data %%%%
+fprintf('Generating support class data...\n')
 while synth_cnt <= M
     price = zeros(1,N);         % single stock vector    
     
@@ -66,7 +70,8 @@ synth_data_C2(1,:) = 2;
 price_mu = 0;
 price_sigma = 1;
 
-for m = 1:M  
+fprintf('Generating non-support class data...\n')
+for m = 1:M
     price = zeros(1,N);         % single stock vector
     price(1) = normrnd(price_mu,price_sigma);
 
@@ -78,13 +83,17 @@ for m = 1:M
     synth_data_C2(2:end,m) = price+abs(min(price));
 %     fprintf('%.1d synthetic stocks generated\n',m)
 end
-
+fprintf('saving... ')
 % Save the data
 c = clock();
 str = sprintf('synthetic_data_%.4d%.2d%.2d_%.2d%.2d%.0f.mat',...
     c(1),c(2),c(3),c(4),c(5),c(6));
 synth_data = [synth_data_C1 synth_data_C2]';
+
+cd ../Data
 save(str,'synth_data')
+cd(home)
+fprintf('saved!\n')
 end
 
 
