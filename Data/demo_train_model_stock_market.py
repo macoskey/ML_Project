@@ -43,6 +43,9 @@ nb_classes = 2
 img_rows, img_cols = 90,90 # input image dimensions (be resized to this!)
 channel = 1
 
+os.remove("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\test.dat")
+os.remove("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\train.dat")
+
 def get_im(path):
     # Load as grayscale
     img = cv2.imread(path, 0)
@@ -55,7 +58,7 @@ def load_train():
     X_train = []
     y_train = []
     print('Read train images')
-    for j in range(nb_classes):
+    for j in range(1,3):
         print('Load folder c{}'.format(j))
         path = os.path.join('.', 'ts_imgs', 'train', str(j), '*.jpg')
         files = glob.glob(path)
@@ -63,14 +66,14 @@ def load_train():
             img = get_im(fl)
             X_train.append(img)
             y_train.append(j)
-
+            #~ print('cnt = ',cnt,'j = ',j)
     return X_train, y_train
 
 def load_test():
     X_test = []
     y_test = []
     print('Read test images')
-    for j in range(nb_classes):
+    for j in range(1,3):
         print('Load folder test_c{}'.format(j))
         path = os.path.join('.', 'ts_imgs', 'test', str(j), '*.jpg')
         files = glob.glob(path)
