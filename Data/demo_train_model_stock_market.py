@@ -39,12 +39,16 @@ global img_rows
 global img_cols
 global channel
 
-nb_classes = 2
-img_rows, img_cols = 90,90 # input image dimensions (be resized to this!)
+nb_classes = 3
+img_rows, img_cols = 142,142 # input image dimensions (be resized to this!)
 channel = 1
 
-os.remove("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\test.dat")
-os.remove("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\train.dat")
+
+#~ if os.path.isfile("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\test.dat"):
+	#~ os.remove("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\test.dat")
+	
+#~ if os.path.isfile("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\train.dat"):
+	#~ os.remove("C:\\Users\\labuser\\Google Drive\\Class\\EECS 545\\LocalProject\\Data\\cache\\train.dat")
 
 def get_im(path):
     # Load as grayscale
@@ -54,13 +58,14 @@ def get_im(path):
     return resized
 
 
+
 def load_train():
     X_train = []
     y_train = []
     print('Read train images')
-    for j in range(1,3):
+    for j in range(nb_classes):
         print('Load folder c{}'.format(j))
-        path = os.path.join('.', 'ts_imgs', 'train', str(j), '*.jpg')
+        path = os.path.join('.', 'ts_imgs2', 'train', str(j), '*.jpg')
         files = glob.glob(path)
         for fl in files:
             img = get_im(fl)
@@ -75,7 +80,7 @@ def load_test():
     print('Read test images')
     for j in range(1,3):
         print('Load folder test_c{}'.format(j))
-        path = os.path.join('.', 'ts_imgs', 'test', str(j), '*.jpg')
+        path = os.path.join('.', 'ts_imgs2', 'test', str(j), '*.jpg')
         files = glob.glob(path)
         for fl in files:
             img = get_im(fl)
@@ -114,6 +119,7 @@ if not os.path.isfile(cache_path):
 else:
 	print('Restore train from cache!')
 	(train_data, train_target) = restore_data(cache_path)
+#~ print(train_target)
 
 cache_path = os.path.join('cache', 'test.dat')
 if not os.path.isfile(cache_path):
@@ -122,7 +128,7 @@ if not os.path.isfile(cache_path):
 else:
 	print('Restore train from cache!')
 	(test_data, test_target) = restore_data(cache_path)
-
+print(len(test_data))
 
 
 train_data = np.array(train_data, dtype=np.uint8)
@@ -178,7 +184,7 @@ model.compile(loss='categorical_crossentropy',
 
 # 9. Fit model on training data
 model.fit(X_train, Y_train, 
-		  batch_size=5, epochs=2, verbose=1)
+		  batch_size=5, epochs=100, verbose=1)
 
 # 10. Evaluate model on test data
 score = model.evaluate(X_test, Y_test, verbose=0)
@@ -196,17 +202,17 @@ p_labels = np.argmax(predictions, axis=1)
 
 print('Recognition Rate:', 100*float(sum(real_labels == p_labels))/float(len(p_labels)))
 
-print(model)
-print(real_labels)
-print(p_labels)
-print(predictions)
-print(X_train.shape)
-print(Y_train.shape)
-print(X_test.shape)
-print(Y_test.shape)
-print(train_data.shape)
-print(test_data.shape)
-print(Y_test)
+#~ print(model)
+#~ print(real_labels)
+#~ print(p_labels)
+#~ print(predictions)
+#~ print(X_train.shape)
+#~ print(Y_train.shape)
+#~ print(X_test.shape)
+#~ print(Y_test.shape)
+#~ print(train_data.shape)
+#~ print(test_data.shape)
+#~ print(Y_test)
 
 
 # Visualization of trained kernels
@@ -230,4 +236,4 @@ def visualizeThings():
 		plot_filters(model.layers[0], 8,4)
 		plot_filters(model.layers[1], 8,4)
 
-visualizeThings()
+#~ visualizeThings()

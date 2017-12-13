@@ -7,15 +7,15 @@ function auto_synthetic_data_generator
 
 home = pwd;
 
-N = 90;                     % simulate a 3-month period
-M = 1024;                   % number of synthetic stocks
+N = 150;                     % simulate a 3-month period
+M = 512;                   % number of synthetic stocks
 support = rand();
 synth_data_C1 = zeros(1+N,M);    % matrix of valid synthetic data
 synth_data_C1(1,:) = 1;
 synth_cnt = 1;
 
-price_mu = 0;
-price_sigma = 1;
+price_mu = 0.01; % assume generally good markets
+price_sigma = 1.33;
 support_mu = 0;
 support_sigma = 5;
 
